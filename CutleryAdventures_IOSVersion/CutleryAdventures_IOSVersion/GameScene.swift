@@ -15,6 +15,9 @@ struct PhysicsCategory {
 
 // dependendia da
 class GameScene: SKScene, SKPhysicsContactDelegate {
+    //Player
+    let grandpa = SKSpriteNode(imageNamed: "player")
+    
     //MARK: HardCoded Vars
     var scrollSpeed : CGFloat = 100 // velocidade de scroll das plataformas
     
@@ -32,6 +35,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func didMove(to view: SKView) {
         // define a cor do fundo base
         backgroundColor = SKColor.gray
+        
+        //playerStuff
+        grandpa.position = CGPoint(x: size.width, y: size.height)
+        grandpa.physicsBody = SKPhysicsBody(rectangleOf: grandpa.size)
+        grandpa.physicsBody?.isDynamic = true
+        grandpa.physicsBody?.categoryBitMask = PhysicsCategory.grandpa
+        grandpa.physicsBody?.collisionBitMask = PhysicsCategory.floor
+        
+        addChild(grandpa)
+        
+        physicsWorld.gravity = .zero
+        physicsWorld.contactDelegate = self
+        
+        
         // inicia elementos da cena
         InitScene()
     }
@@ -44,9 +61,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if(startPlaying){
             // actualiza as plataformas
             UpdateObstacles(deltaTime: deltaTime)
-        }
+            if(left == true && right == false)
+            {
+                if(grandpa.position.x > 0)
+                {
+                grandpa.position.x -= 1
+                    
+                }
+        }else if(left == false && right == true)
+            {
+                if(grandpa.position.x < size.width)
+                {
+                    grandpa.position.x += 1
+                    
+                }
+            }
+        
         // atualiza o tempo do fram
         lastUpdateTime = CGFloat(currentTime)
+        }
     }
     //MARK: Late update
     // no final do ciclo, verifica se as plataformas estao posicionadas correctamente
@@ -150,14 +183,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
         }
 
-         let location = touch.location(in: self)
-
-        if(location.x < frame.midX)
+        
+        if(right == true && left == false)
         {
          right = false
          left = true
         }
-        else{
+        else if (right == false && left == true){
             right = true
             left = false
         }
@@ -181,4 +213,5 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             //userDefaults.set(savedString, forKey: "BestScore")        }
         
     }
+ }
 }
