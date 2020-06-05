@@ -10,6 +10,8 @@ import UIKit
 import SpriteKit
 import GameplayKit
 
+
+
 class GameViewController: UIViewController {
 
     override func viewDidLoad() {
@@ -48,4 +50,18 @@ class GameViewController: UIViewController {
     override var prefersStatusBarHidden: Bool {
         return true
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        let userDefaults = Foundation.UserDefaults.standard
+        let value = userDefaults.string(forKey: "BestScore")
+        
+        if(value == nil) {
+        //label.text = "0"
+        }
+        else{
+        //lable.text = value
+        }
+        
+    }
+    
 }
