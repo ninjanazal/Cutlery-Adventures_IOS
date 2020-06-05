@@ -2,7 +2,8 @@ import SpriteKit
 import GameplayKit
 
 var recordData:String!
-
+var right:Bool = false
+var left:Bool = false
 
 struct PhysicsCategory {
     static let none : UInt32 = 0
@@ -18,7 +19,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         backgroundColor = SKColor.gray
     }
     
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?){
+        let touch = touches.first!
+        let location = touch.location(in: self)
+        
+        if(location.x < frame.midX)
+        {
+         right = false
+         left = true
+        }
+        else{
+            right = true
+            left = false
+        }
+    }
 }
+
+
+
 
 func saveScore(){
     if(recordData == nil)
