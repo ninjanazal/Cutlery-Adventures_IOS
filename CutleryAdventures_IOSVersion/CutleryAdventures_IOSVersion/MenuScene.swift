@@ -5,10 +5,10 @@ import GameKit
 class MenuScene : SKScene{
     //MARK: HardCodedValues
     let uiMargin : CGFloat = 10.0    // margem entre elementos de Ui
-    
+    //MARK: SceneVars
     var cutleryAdventureLogo, backGroundImage : SKSpriteNode!
     var bestScoreLabel, bestScoreValueLabel : SKLabelNode!
-    var playButton : SKSpriteNode!
+    var playButton, creditsBtn : SKSpriteNode!
     
     override func didMove(to view: SKView) {
         // define a cor do fundo base
@@ -62,6 +62,8 @@ class MenuScene : SKScene{
         
         // label que mostra o valor do melhor score
         bestScoreValueLabel = SKLabelNode()
+        
+        // MARK: TODO -> ConnectValues
         //----- :: TODO :: LOAD VALUE FROM FILE ------ //
         bestScoreValueLabel.text = "0"      // a ser removido <<<< ---------
         bestScoreValueLabel.fontSize = 40   // define o tamanho da fonte
@@ -92,6 +94,23 @@ class MenuScene : SKScene{
         playButton.zPosition = 5
         // adiciona á cena
         self.addChild(playButton)
+        
+        // MARK: CreditsBtn
+        // carrega a imagem do botao de play
+        creditsBtn = SKSpriteNode(imageNamed: "play_btn")
+        // atribui um nome ao node
+        creditsBtn.name = "creditsBtn"
+        // define a escala do botao
+        creditsBtn.xScale = 0.4
+        creditsBtn.yScale = 0.8
+        // define a posiçao do botao
+        creditsBtn.position = CGPoint(x: frame.size.width - creditsBtn.size.width * 0.25,
+                                      y: frame.size.height * 0.2)
+        // coloca o botao na frente
+        creditsBtn.zPosition = 5
+        
+        // adiciona o botao á cena
+        self.addChild(creditsBtn)
     }
     
     //MARK: Touch response
@@ -108,6 +127,9 @@ class MenuScene : SKScene{
         case "playButton":
             // troca de scena para a de jogo
             SwitchToGameScene()
+        case "creditsBtn":
+            // troca para a scena de creditos
+            SwitchToCredits()
         default:
             // caso nao tenha tocado em nenhum node relevante
             return
@@ -122,5 +144,14 @@ class MenuScene : SKScene{
         let scene = GameScene(size: size)
         // mostra a cena com a transiçao definida
         self.view?.presentScene(scene, transition: transition)
+    }
+    // metodo para trocar para creditos
+    private func SwitchToCredits(){
+        // define a transiçao
+        let transition = SKTransition.push(with: .left, duration: 0.6)
+        // define a scena a carregar
+        let scene = CreditsScene(size: size)
+        // mostra a cena com a transiçao definida
+        self.view?.presentScene(scene,transition: transition)
     }
 }

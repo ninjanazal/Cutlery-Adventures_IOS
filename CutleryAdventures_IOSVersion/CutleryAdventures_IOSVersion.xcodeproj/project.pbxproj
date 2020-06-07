@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0F5552C1248D5A870071C668 /* CreditsScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F5552C0248D5A870071C668 /* CreditsScene.swift */; };
 		0F64FCA52486509300235B5A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F64FCA42486509300235B5A /* AppDelegate.swift */; };
 		0F64FCAB2486509300235B5A /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F64FCAA2486509300235B5A /* GameScene.swift */; };
 		0F64FCAD2486509300235B5A /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F64FCAC2486509300235B5A /* GameViewController.swift */; };
@@ -17,6 +18,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0F5552C0248D5A870071C668 /* CreditsScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreditsScene.swift; sourceTree = "<group>"; };
 		0F64FCA12486509300235B5A /* CutleryAdventures_IOSVersion.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CutleryAdventures_IOSVersion.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0F64FCA42486509300235B5A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0F64FCAA2486509300235B5A /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
@@ -60,6 +62,7 @@
 			children = (
 				0F64FCA42486509300235B5A /* AppDelegate.swift */,
 				0FC1140C248ACE0300BE5F6D /* MenuScene.swift */,
+				0F5552C0248D5A870071C668 /* CreditsScene.swift */,
 				0F64FCAA2486509300235B5A /* GameScene.swift */,
 				0F64FCAC2486509300235B5A /* GameViewController.swift */,
 				0F64FCAE2486509300235B5A /* Main.storyboard */,
@@ -142,6 +145,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0F64FCAB2486509300235B5A /* GameScene.swift in Sources */,
+				0F5552C1248D5A870071C668 /* CreditsScene.swift in Sources */,
 				0FC1140D248ACE0300BE5F6D /* MenuScene.swift in Sources */,
 				0F64FCAD2486509300235B5A /* GameViewController.swift in Sources */,
 				0F64FCA52486509300235B5A /* AppDelegate.swift in Sources */,
