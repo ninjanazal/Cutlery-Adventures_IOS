@@ -17,10 +17,12 @@ class GameViewController: UIViewController {
         
         if let view = self.view as! SKView? {
             // criar uma instancia da gameScene
-            let scene = GameScene(size: view.bounds.size)
+            //let scene = GameScene(size: view.bounds.size)
+            let scene = MenuScene(size: view.bounds.size)
+            
             // define o tipo de escalamento
             scene.scaleMode = .resizeFill
-            // ignora ordem de parentesco
+            // nao ignora ordem de parentesco
             view.ignoresSiblingOrder = true
             // mostra fps
             view.showsFPS = true
