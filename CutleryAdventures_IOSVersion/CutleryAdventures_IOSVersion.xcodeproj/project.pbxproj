@@ -14,6 +14,7 @@
 		0F64FCB02486509300235B5A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0F64FCAE2486509300235B5A /* Main.storyboard */; };
 		0F64FCB22486509F00235B5A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0F64FCB12486509F00235B5A /* Assets.xcassets */; };
 		0F64FCB52486509F00235B5A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0F64FCB32486509F00235B5A /* LaunchScreen.storyboard */; };
+		0FA60A04248E761A00AFCB51 /* Obstacle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FA60A03248E761900AFCB51 /* Obstacle.swift */; };
 		0FC1140D248ACE0300BE5F6D /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FC1140C248ACE0300BE5F6D /* MenuScene.swift */; };
 /* End PBXBuildFile section */
 
@@ -27,6 +28,7 @@
 		0F64FCB12486509F00235B5A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0F64FCB42486509F00235B5A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0F64FCB62486509F00235B5A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0FA60A03248E761900AFCB51 /* Obstacle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Obstacle.swift; sourceTree = "<group>"; };
 		0FC1140C248ACE0300BE5F6D /* MenuScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -61,6 +63,7 @@
 			isa = PBXGroup;
 			children = (
 				0F64FCA42486509300235B5A /* AppDelegate.swift */,
+				0FA60A03248E761900AFCB51 /* Obstacle.swift */,
 				0FC1140C248ACE0300BE5F6D /* MenuScene.swift */,
 				0F5552C0248D5A870071C668 /* CreditsScene.swift */,
 				0F64FCAA2486509300235B5A /* GameScene.swift */,
@@ -146,6 +149,7 @@
 			files = (
 				0F64FCAB2486509300235B5A /* GameScene.swift in Sources */,
 				0F5552C1248D5A870071C668 /* CreditsScene.swift in Sources */,
+				0FA60A04248E761A00AFCB51 /* Obstacle.swift in Sources */,
 				0FC1140D248ACE0300BE5F6D /* MenuScene.swift in Sources */,
 				0F64FCAD2486509300235B5A /* GameViewController.swift in Sources */,
 				0F64FCA52486509300235B5A /* AppDelegate.swift in Sources */,
