@@ -2,6 +2,18 @@ import SpriteKit
 import GameplayKit
 
 // dependendia da
+var recordData:String!
+var right:Bool = false
+var left:Bool = false
+
+struct PhysicsCategory {
+    static let none : UInt32 = 0
+    static let all  : UInt32 = UInt32.max
+    static let grandpa : UInt32 = 0b1 // 1
+    static let floor : UInt32 = 0b10 // 2
+}
+
+// dependendia da
 class GameScene: SKScene, SKPhysicsContactDelegate {
     //MARK: HardCoded Vars
     var scrollSpeed : CGFloat = 100 // velocidade de scroll das plataformas
@@ -137,5 +149,36 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             startPlaying = true
             
         }
+
+         let location = touch.location(in: self)
+
+        if(location.x < frame.midX)
+        {
+         right = false
+         left = true
+        }
+        else{
+            right = true
+            left = false
+        }
+    }
+
+    func saveScore(){
+    if(recordData == nil)
+    {
+        let savedString = "place holder"
+        let userDefaults = Foundation.UserDefaults.standard
+        userDefaults.set(savedString, forKey: "BestScore")
+
+    }
+    else
+    {
+        //let score:Int? = Int(scorelable.text!)
+        //let record:Int? = Int(recordData)
+        //if(score! > record!){
+          //  let savedString = "place holder"
+            //let userDefaults = Foundation.UserDefaults.standard
+            //userDefaults.set(savedString, forKey: "BestScore")        }
+        
     }
 }
