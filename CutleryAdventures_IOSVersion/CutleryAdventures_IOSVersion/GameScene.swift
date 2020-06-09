@@ -17,16 +17,18 @@ struct PhysicsCategory {
 class GameScene: SKScene, SKPhysicsContactDelegate {
     //MARK: HardCoded Vars
     var scrollSpeed : CGFloat = 100 // velocidade de scroll das plataformas
-    
+    var scrollAceleration : Double = 0.15  // aceleraçao do scroll
     //MARK: Scene Vars
     var backGroundImage : SKSpriteNode!
     var platformTexture : SKTexture!        // textura das plataformas
     var platformsDistance : CGFloat = 0.3   // distancia entre as plataformas
     var platforms = [Obstacle]()            // array vazio de plataformas
-    var justTaplabel : SKLabelNode!         // label que indica para o jogador carregar
+    var justTaplabel, playerScoreLabel : SKLabelNode!         // label que indica para o jogador carregar
+    
     //MARK: Logic Vars
     private var lastUpdateTime : CGFloat = 0    // tempo do ultimo update
     private var startPlaying : Bool = false     // indica se o jogo começou
+    private var currentScore : Double = 0.00     // score do jogador
     
     //MARK: ONLoad
     override func didMove(to view: SKView) {
@@ -44,22 +46,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if(startPlaying){
             // actualiza as plataformas
             UpdateObstacles(deltaTime: deltaTime)
+            
+            // actualiza o score de jogo
+            UpdateScore(Double(deltaTime))
         }
         // atualiza o tempo do fram
         lastUpdateTime = CGFloat(currentTime)
     }
+    
     //MARK: Late update
     // no final do ciclo, verifica se as plataformas estao posicionadas correctamente
     override func didFinishUpdate() {
-        // verifica se o primeiro elemento está dentro dos limites
-        if(!platforms[0].IsInsideScreen(frame: frame)){
-            // se nao estiver este
-            platforms[0].RemoveFromScene(scene: self)
-            // remove do array
-            platforms.removeFirst()
-            // adiciona uma nova plataforma no final
-            CreateNewObstacle()
-        }
+        // Confirma se a plataforma continua em vista
+        ConfirmObstacleView()
     }
     
     //MARK: Init
@@ -88,10 +87,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // adiciona a label á cena
         self.addChild(justTaplabel)
         
+        // gera a label para mostrar a pontuaçao do jogador
+        playerScoreLabel = SKLabelNode(text: String(currentScore))
+        // define o tamanho da fonte
+        playerScoreLabel.fontSize = 45
+        // define a posiçao da label
+        playerScoreLabel.position = CGPoint(x: frame.size.width * 0.5, y: frame.size.height * 0.90)
+        // define a cor da label
+        playerScoreLabel.color = .white
+        //coloca na frente
+        playerScoreLabel.zPosition = 10
+        
         // gera plataformas
         GeneratePlatforms()
     }
     
+    //MARK: Logica das Plataformas
     //MARK: Iniciador de plataformas
     // metodo que inicia as plataformas
     private func GeneratePlatforms(){
@@ -116,6 +127,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // indica o numero de segmentos criados
         print("Generated \(platforms.count) segments")
     }
+    //MARK: Update das plataformas
     // metodo que actualiza as plataformas
     private func UpdateObstacles(deltaTime : CGFloat){
         // desloca os obstaculos
@@ -125,7 +137,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             platforms[i].Move(amount: scrollSpeed * deltaTime)
         }
     }
+    //MARK: Confirma visivilidade
+    // avalia se a plataforma continua dentro de vista
+    private func ConfirmObstacleView(){
+        // verifica se o primeiro elemento está dentro dos limites
+        if(!platforms[0].IsInsideScreen(frame: frame)){
+            // se nao estiver este
+            platforms[0].RemoveFromScene(scene: self)
+            // remove do array
+            platforms.removeFirst()
+            // adiciona uma nova plataforma no final
+            CreateNewObstacle()
+        }
+    }
     
+    //MARK: Cria novas plataformas
     // metodo que cria novos obstaculos
     private func CreateNewObstacle(){
         // adiciona um novo obstaculo á lista
@@ -133,6 +159,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             distanceFrom: platformsDistance, frame: frame))
         // adiciona o elemento á scena
         platforms[platforms.count - 1].AddToScene(scene: self)
+    }
+    
+    //MARK: Score Update
+    private func UpdateScore(_ deltaTime : Double){
+        // adiciona ao score o tempo passado
+        currentScore += deltaTime
+        // arredonta o valor final
+        currentScore = round(100 * currentScore) / 100
+        
+        // actualiza o valor da label
+        playerScoreLabel.text = String(currentScore)
+        
+        // sempre que o score muda a velocidade da partida tambem
+        scrollSpeed += CGFloat(2 * scrollAceleration)
     }
     
     //MARK: Input
@@ -143,14 +183,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // verifica se nao é o toque de inicio
         if(!startPlaying){
             // sendo o primeiro toque
-            // desativa a label
+            // remove a label informativa e inicia a mostragem da pontuaçao
             justTaplabel.removeFromParent()
+            self.addChild(playerScoreLabel)
             // inicia a partida
             startPlaying = true
-            
         }
 
-         let location = touch.location(in: self)
+        let location = touch.location(in: self)
 
         if(location.x < frame.midX)
         {
@@ -164,21 +204,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
 
     func saveScore(){
-    if(recordData == nil)
-    {
-        let savedString = "place holder"
-        let userDefaults = Foundation.UserDefaults.standard
-        userDefaults.set(savedString, forKey: "BestScore")
+        if(recordData == nil)
+        {
+            let savedString = "place holder"
+            let userDefaults = Foundation.UserDefaults.standard
+            userDefaults.set(savedString, forKey: "BestScore")
 
-    }
-    else
-    {
-        //let score:Int? = Int(scorelable.text!)
-        //let record:Int? = Int(recordData)
-        //if(score! > record!){
-          //  let savedString = "place holder"
+        }
+        else
+        {
+            //let score:Int? = Int(scorelable.text!)
+            //let record:Int? = Int(recordData)
+            //if(score! > record!){
+            //  let savedString = "place holder"
             //let userDefaults = Foundation.UserDefaults.standard
             //userDefaults.set(savedString, forKey: "BestScore")        }
         
+        }
     }
 }
