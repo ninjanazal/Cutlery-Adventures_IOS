@@ -5,7 +5,7 @@ import GameKit
 class Obstacle{
     //MARK: Variaveis da class
     var leftPlatform, rightPlatform : SKSpriteNode!
-    var gapSize : CGFloat = 0.2          // distancia de espaçamento entre as plataformas %da largura                                       do ecra
+    var gapSize : CGFloat = 0.25          // distancia de espaçamento entre as plataformas %da largura                                       do ecra
     var obstaclePosition : CGPoint      // posiçao central do espaçamento
     
     // construtor da class

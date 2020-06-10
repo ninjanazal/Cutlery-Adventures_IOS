@@ -10,18 +10,21 @@ var down:Bool = false
 struct PhysicsCategory {
     static let none : UInt32 = 0
     static let all  : UInt32 = UInt32.max
-    static let grandpa : UInt32 = 0b1 // 1
-    static let floor : UInt32 = 0b10 // 2
+    static let grandpa : UInt32 = 0b1 << 0 // 1
+    static let floor : UInt32   = 0b1 << 1 // 2
 }
 
 // dependendia da
 class GameScene: SKScene, SKPhysicsContactDelegate {
-    //Player
+    //MARK: Player
     let grandpa = SKSpriteNode(imageNamed: "oldMan")
+    var playerDirection : Int = 1   //direcçao do jogador
+    var playerSpeed : Double = 225.5  // velocidade do jogador
     
     //MARK: HardCoded Vars
-    var scrollSpeed : CGFloat = 100 // velocidade de scroll das plataformas
-    var scrollAceleration : Double = 0.15  // aceleraçao do scroll
+    var scrollSpeed : CGFloat = 150 // velocidade de scroll das plataformas
+    var scrollAceleration : Double = 0.22  // aceleraçao do scroll
+    
     //MARK: Scene Vars
     var backGroundImage : SKSpriteNode!
     var platformTexture : SKTexture!        // textura das plataformas
@@ -39,12 +42,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // define a cor do fundo base
         backgroundColor = SKColor.gray
         
-        //playerStuff
-      
-        
+        // definiçao do mundo fisico
         physicsWorld.gravity = .zero
+        // indica o delegate de colisao
         physicsWorld.contactDelegate = self
-        
         
         // inicia elementos da cena
         InitScene()
@@ -58,45 +59,39 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if(startPlaying){
             // actualiza as plataformas
             UpdateObstacles(deltaTime: deltaTime)
-
-          //   if(down == true)
-           // {
-             //   grandpa.position.y -= 1
-            //}else if (down == false)
-           // {
-             //   grandpa.position.y += 1
-            //}
+            
+            //MARK: Sugestao
+            // actualiza a posiçao com base na velocidade e na quantidade de tempo entre frames
+            self.grandpa.position.x += CGFloat(playerSpeed) * deltaTime * CGFloat(playerDirection)
           
-            if(left == true && right == false)
-            {
-                if(grandpa.position.x > 0)
-                {
-                grandpa.position.x -= 1
-                    
+            /*
+            if(left == true && right == false){
+                if(grandpa.position.x > 0){
+                    grandpa.position.x -= 5
                 }
-        }else if(left == false && right == true)
-            {
-                if(grandpa.position.x < size.width)
-                {
-                    grandpa.position.x += 1
-                    
+            }else if(left == false && right == true){
+                if(grandpa.position.x < size.width){
+                    grandpa.position.x += 5
                 }
             }
-          
+          */
+            
         // actualiza o score de jogo
             UpdateScore(Double(deltaTime))
         }
-
         // atualiza o tempo do fram
         lastUpdateTime = CGFloat(currentTime)
         }
-    }
+    
     
     //MARK: Late update
     // no final do ciclo, verifica se as plataformas estao posicionadas correctamente
     override func didFinishUpdate() {
         // Confirma se a plataforma continua em vista
         ConfirmObstacleView()
+        
+        // avalia a posiçao do jogador
+        ConfirmPlayerPosition()
     }
     
     //MARK: Init
@@ -139,16 +134,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // gera plataformas
         GeneratePlatforms()
         
-        grandpa.position = CGPoint(x: frame.midX, y: frame.midY)
+        //MARK: Player
+        // posiçao do jogador
         grandpa.xScale = 2
         grandpa.yScale = 2
+        grandpa.position = CGPoint(x: frame.midX, y: frame.height - grandpa.size.height * 2)
         grandpa.zPosition = 5
+        
         grandpa.physicsBody = SKPhysicsBody(rectangleOf: grandpa.size)
-        //grandpa.physicsBody?.isDynamic = true
+        grandpa.physicsBody?.allowsRotation = false
         grandpa.physicsBody?.categoryBitMask = PhysicsCategory.grandpa
         grandpa.physicsBody?.collisionBitMask = PhysicsCategory.floor
         
-        addChild(grandpa)
+        self.addChild(grandpa)
         
         
     }
@@ -226,31 +224,55 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         scrollSpeed += CGFloat(2 * scrollAceleration)
     }
     
+    //MARK: GameState Confirmation
+    private func ConfirmPlayerPosition(){
+        // avalia a posiçao do jogador horizontal
+        if(self.grandpa.position.x - self.grandpa.size.width * 0.5 < 0){
+            self.grandpa.position.x = self.grandpa.size.width * 0.5}
+        else if(self.grandpa.position.x + self.grandpa.size.width * 0.5 > frame.size.width){
+            self.grandpa.position.x = frame.size.width - self.grandpa.size.width * 0.5}
+        
+        // avalia a posiçao vertical do jogador
+        if(self.grandpa.position.y - self.grandpa.size.height * 0.5 < 0){
+            self.grandpa.position.y = self.grandpa.size.height * 0.5}
+        else if(self.grandpa.position.y - self.grandpa.size.height * 0.5 > frame.height){
+            // end Game
+            
+        }
+    }
+    
     //MARK: Input
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        // guarda o primeiro toque da lista, caso exista
-        guard let touch = touches.first else {return}
-        
         // verifica se nao é o toque de inicio
         if(!startPlaying){
             // sendo o primeiro toque
             // remove a label informativa e inicia a mostragem da pontuaçao
             justTaplabel.removeFromParent()
             self.addChild(playerScoreLabel)
+            // activa o corpo fisico do jogador
+            grandpa.physicsBody?.isDynamic = true
+            // define a gravidade do jogo
+            physicsWorld.gravity = CGVector(dx: 0, dy: -4.9)
             // inicia a partida
             startPlaying = true
+            
+            // ignora o resto da funçao
+            return
         }
-
-
-        if(right == true && left == false)
-        {
+        //MARK: Sugestao
+        self.playerDirection *= -1
+        // actualiza a direcçao do jogador
+        self.grandpa.xScale = abs(self.grandpa.xScale) * CGFloat(playerDirection)
+        
+        /*
+        if(right == true && left == false){
          right = false
          left = true
         }
         else if (right == false && left == true){
             right = true
             left = false
-        }
+        }*/
     }
 
     func saveScore(){
@@ -272,7 +294,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         }
     }
- }
+ 
     
     func didBegin(_ contact: SKPhysicsContact) {
         var firstBody : SKPhysicsBody
@@ -293,7 +315,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             (secondBody.categoryBitMask == PhysicsCategory.floor))
         {
             down = false
-        }else{down = true}
-            }
+        }else{
+            down = true
+            
+        }
+    }
     
 }
