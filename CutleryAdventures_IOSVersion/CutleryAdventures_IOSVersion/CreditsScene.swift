@@ -4,7 +4,7 @@ import GameKit
 class CreditsScene : SKScene{
     //MARK: HardCoded vars
     let textMargin : CGFloat = 30
-    
+    let userDefaults = Foundation.UserDefaults.standard
     //MARK: Scene Vars
     var cutleryAdventureLogo, backGroundImage : SKSpriteNode!
     var goBackBtn : SKSpriteNode!
@@ -31,9 +31,10 @@ class CreditsScene : SKScene{
         // adiciona o logo á cena
         self.addChild(cutleryAdventureLogo)
         
+        let newBackground = userDefaults.string(forKey: "b")
         //MARK: Background Load
         // carrega e posiciona o background
-        backGroundImage = SKSpriteNode(imageNamed: "background")
+       backGroundImage = SKSpriteNode(imageNamed: newBackground ?? "background")
         //define a posiçao do background, está centrado sobre a vista
         backGroundImage.position = CGPoint(x: frame.size.width / 2 , y: frame.size.height / 2)
         // define o tamanho correcto para a imagem

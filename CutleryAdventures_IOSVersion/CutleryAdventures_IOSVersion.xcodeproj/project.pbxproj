@@ -18,6 +18,7 @@
 		0FA60A04248E761A00AFCB51 /* Obstacle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FA60A03248E761900AFCB51 /* Obstacle.swift */; };
 		0FC1140D248ACE0300BE5F6D /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FC1140C248ACE0300BE5F6D /* MenuScene.swift */; };
 		0FEC662024911C5800F66AA3 /* EndGameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FEC661F24911C5800F66AA3 /* EndGameScene.swift */; };
+		77629C8F2491755F00CD78C5 /* BackgroundScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77629C8E2491755F00CD78C5 /* BackgroundScene.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +35,7 @@
 		0FA60A03248E761900AFCB51 /* Obstacle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Obstacle.swift; sourceTree = "<group>"; };
 		0FC1140C248ACE0300BE5F6D /* MenuScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 		0FEC661F24911C5800F66AA3 /* EndGameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndGameScene.swift; sourceTree = "<group>"; };
+		77629C8E2491755F00CD78C5 /* BackgroundScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundScene.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +76,7 @@
 				0F64FCAA2486509300235B5A /* GameScene.swift */,
 				0FEC661F24911C5800F66AA3 /* EndGameScene.swift */,
 				0F64FCAC2486509300235B5A /* GameViewController.swift */,
+				77629C8E2491755F00CD78C5 /* BackgroundScene.swift */,
 				0F64FCAE2486509300235B5A /* Main.storyboard */,
 				0F64FCB12486509F00235B5A /* Assets.xcassets */,
 				0F64FCB32486509F00235B5A /* LaunchScreen.storyboard */,
@@ -155,6 +158,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0F64FCAB2486509300235B5A /* GameScene.swift in Sources */,
+				77629C8F2491755F00CD78C5 /* BackgroundScene.swift in Sources */,
 				0F4A90C82493C7C700849B97 /* CutleryRainSystem.swift in Sources */,
 				0F5552C1248D5A870071C668 /* CreditsScene.swift in Sources */,
 				0FEC662024911C5800F66AA3 /* EndGameScene.swift in Sources */,

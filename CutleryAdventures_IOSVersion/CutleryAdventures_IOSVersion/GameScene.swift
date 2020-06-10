@@ -101,8 +101,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     //MARK: Init
     private func InitScene(){
+        let newBackground = userDefaults.string(forKey: "b")
         // inicia o background da cena
-        backGroundImage = SKSpriteNode(imageNamed: "background")
+        backGroundImage = SKSpriteNode(imageNamed: newBackground ?? "background")
         // define a posiçao da imagem
         backGroundImage.position = CGPoint(x: frame.size.width / 2, y: frame.size.height / 2)
         // define o tamanho do fundo para se adaptar ao ecra

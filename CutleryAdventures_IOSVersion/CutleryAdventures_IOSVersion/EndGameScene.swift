@@ -6,7 +6,7 @@ class EndGameScene: SKScene {
     var labelSpacing : CGFloat = 0.05     // relativo ao tamanho do ecra
     //MARK: Internal Logic
     var playerScore : Double = 0   // pontuaçao do jogador
-    
+    let userDefaults = Foundation.UserDefaults.standard
     //MARK: Scene Vars
     var backgroundImage, gameLogo : SKSpriteNode!
     var scoreLabelInfo, currentScoreLabel  : SKLabelNode!
@@ -38,7 +38,8 @@ class EndGameScene: SKScene {
     // inicaçao da cena
     private func InitScene(){
         // define o fundo da cena
-        backgroundImage = SKSpriteNode(imageNamed: "background")
+        let newBackground = userDefaults.string(forKey: "b")
+        backgroundImage = SKSpriteNode(imageNamed: newBackground ?? "background")
         // define a posiçao do fundo
         backgroundImage.position = CGPoint(x: frame.size.width * 0.5, y: frame.size.height * 0.5)
         // define o tamanho da imagem

@@ -8,8 +8,8 @@ class MenuScene : SKScene{
     //MARK: SceneVars
     var cutleryAdventureLogo, backGroundImage : SKSpriteNode!
     var bestScoreLabel, bestScoreValueLabel : SKLabelNode!
-    var playButton, creditsBtn : SKSpriteNode!
-    
+    var playButton, creditsBtn, bkgrBtn : SKSpriteNode!
+    let userDefaults = Foundation.UserDefaults.standard
     
     
     override func didMove(to view: SKView) {
@@ -42,9 +42,11 @@ class MenuScene : SKScene{
         // adiciona o logo á cena
         self.addChild(cutleryAdventureLogo)
         
+        
+        let newBackground = userDefaults.string(forKey: "b")
         //MARK: Background Load
         // carrega e posiciona o background
-        backGroundImage = SKSpriteNode(imageNamed: "background")
+        backGroundImage = SKSpriteNode(imageNamed: newBackground ?? "background")
         //define a posiçao do background, está centrado sobre a vista
         backGroundImage.position = CGPoint(x: frame.size.width / 2 , y: frame.size.height / 2)
         // define o tamanho correcto para a imagem
@@ -117,6 +119,23 @@ class MenuScene : SKScene{
         
         // adiciona o botao á cena
         self.addChild(creditsBtn)
+        
+        //MARK: Load bkgrBtn btn
+        // inicia o gobackbtn
+        bkgrBtn = SKSpriteNode(imageNamed: "play_btn")
+        // define o nome do btn
+        bkgrBtn.name = "bkgrBtn"
+        // para reciclar a sprite, inverte a escala sobre x
+        bkgrBtn.xScale = -0.4
+        bkgrBtn.yScale = 0.8
+        bkgrBtn.color = .gray
+        // define a posiçao do botao
+        bkgrBtn.position = CGPoint(x: bkgrBtn.size.width * 0.25, y: frame.size.height * 0.2)
+        // coloca o botao na frente
+        bkgrBtn.zPosition = 5
+        
+        // adiciona o botao á cena
+        self.addChild(bkgrBtn)
     }
     
     //MARK: Touch response
@@ -136,6 +155,8 @@ class MenuScene : SKScene{
         case "creditsBtn":
             // troca para a scena de creditos
             SwitchToCredits()
+        case "bkgrBtn":
+            SwitchToBkgSelection()
         default:
             // caso nao tenha tocado em nenhum node relevante
             return
@@ -160,9 +181,17 @@ class MenuScene : SKScene{
         // mostra a cena com a transiçao definida
         self.view?.presentScene(scene,transition: transition)
     }
-    
+    // metodo para trocar para o background elector
+    private func SwitchToBkgSelection(){
+        // define a transiçao
+        let transition = SKTransition.push(with: .right, duration: 0.6)
+        // define a scena a carregar
+        let scene = BackgroundScene(size: size)
+        // mostra a cena com a transiçao definida
+        self.view?.presentScene(scene,transition: transition)
+    }
     func LoadScore(){
-        let userDefaults = Foundation.UserDefaults.standard
+      
         let newScore = userDefaults.string(forKey: "BestScore")
         
         if(newScore == nil){
