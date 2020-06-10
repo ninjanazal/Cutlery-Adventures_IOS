@@ -237,7 +237,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.grandpa.position.y = self.grandpa.size.height * 0.5}
         else if(self.grandpa.position.y - self.grandpa.size.height * 0.5 > frame.height){
             // end Game
-            
+            LoadEndGameScene()
         }
     }
     
@@ -295,7 +295,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
  
-    
+    //MARK: Collision callBack
     func didBegin(_ contact: SKPhysicsContact) {
         var firstBody : SKPhysicsBody
         var secondBody : SKPhysicsBody
@@ -319,6 +319,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             down = true
             
         }
+    }
+    
+    //MARK: Load EndScene
+    private func LoadEndGameScene(){
+        // define a transiçao
+        let transition = SKTransition.push(with: .left, duration: 0.6)
+        // define a cena a carregar
+        let scene = EndGameScene(size: size, score: currentScore)
+        // mostra a cena com a transiçao definida
+        self.view?.presentScene(scene, transition: transition)
     }
     
 }
