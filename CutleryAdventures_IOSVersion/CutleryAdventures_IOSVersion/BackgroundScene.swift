@@ -44,7 +44,7 @@ class BackgroundScene : SKScene{
         // adiciona o background á cena
         self.addChild(backGroundImage)
         
-        // MARK: BestScore Display
+        
         
     }
     
@@ -76,11 +76,11 @@ class BackgroundScene : SKScene{
         // atribui um nome ao node
         backgroundChoice1.name = "background1"
         // define a escala do botao
-        backgroundChoice1.xScale = 0.4
-        backgroundChoice1.yScale = 0.8
+        backgroundChoice1.xScale = 0.1
+        backgroundChoice1.yScale = 0.1
         // define a posiçao do botao
-        backgroundChoice1.position = CGPoint(x: frame.size.width / 0.25,
-                                             y: frame.size.height * 0.95 - backgroundChoice1.size.height / 2)
+        backgroundChoice1.position = CGPoint(x: frame.size.width / 2,
+                                             y: frame.size.height / 2)
         // coloca o botao na frente
         backgroundChoice1.zPosition = 5
         
@@ -97,7 +97,7 @@ class BackgroundScene : SKScene{
         backgroundChoice2.xScale = 0.4
         backgroundChoice2.yScale = 0.8
         // define a posiçao do botao
-        backgroundChoice2.position = CGPoint(x: frame.size.width / 0.75,
+        backgroundChoice2.position = CGPoint(x: frame.size.width / 2,
                                              y: frame.size.height * 0.95 - backgroundChoice2.size.height / 2)
         // coloca o botao na frente
         backgroundChoice2.zPosition = 5
@@ -195,8 +195,20 @@ class BackgroundScene : SKScene{
     }
     
     func LoadBackground(){
+        backGroundImage.removeFromParent()
         
         let newBackground = userDefaults.string(forKey: "b")
+        //MARK: Background Load
+        // carrega e posiciona o background
         backGroundImage = SKSpriteNode(imageNamed: newBackground ?? "background")
+        backGroundImage.name = "background"
+        //define a posiçao do background, está centrado sobre a vista
+        backGroundImage.position = CGPoint(x: frame.size.width / 2 , y: frame.size.height / 2)
+        // define o tamanho correcto para a imagem
+        backGroundImage.size = CGSize(width: frame.size.width, height: frame.size.height)
+        
+        // adiciona o background á cena
+        self.addChild(backGroundImage)
+        
     }
 }
