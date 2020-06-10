@@ -12,6 +12,18 @@ import GameplayKit
 
 class GameViewController: UIViewController {
 
+    override func viewWillAppear(_ animated: Bool) {
+        let userDefaults = Foundation.UserDefaults.standard
+        let newScore = userDefaults.string(forKey: "t")
+       
+        if(newScore == nil){
+            // label.text = "0"
+        }else
+        {
+            // label.text = newScore
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         

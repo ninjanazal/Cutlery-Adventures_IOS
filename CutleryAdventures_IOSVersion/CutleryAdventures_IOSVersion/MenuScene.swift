@@ -10,6 +10,8 @@ class MenuScene : SKScene{
     var bestScoreLabel, bestScoreValueLabel : SKLabelNode!
     var playButton, creditsBtn : SKSpriteNode!
     
+    
+    
     override func didMove(to view: SKView) {
         // define a cor do fundo base
         backgroundColor = SKColor.white
@@ -24,6 +26,7 @@ class MenuScene : SKScene{
         LoadNonInteractables()
         // carrega elementos interactivos
         LoadInteractables()
+        LoadScore()
     }
     
     //MARK: Init NonInteractables
@@ -78,6 +81,9 @@ class MenuScene : SKScene{
         // adiciona as labels á cena
         self.addChild(bestScoreValueLabel)
         self.addChild(bestScoreLabel)
+       
+        
+        
     }
     
     
@@ -153,5 +159,17 @@ class MenuScene : SKScene{
         let scene = CreditsScene(size: size)
         // mostra a cena com a transiçao definida
         self.view?.presentScene(scene,transition: transition)
+    }
+    
+    func LoadScore(){
+        let userDefaults = Foundation.UserDefaults.standard
+        let newScore = userDefaults.string(forKey: "BestScore")
+        
+        if(newScore == nil){
+            bestScoreValueLabel.text = "0"
+        }else
+        {
+            bestScoreValueLabel.text = newScore
+        }
     }
 }
