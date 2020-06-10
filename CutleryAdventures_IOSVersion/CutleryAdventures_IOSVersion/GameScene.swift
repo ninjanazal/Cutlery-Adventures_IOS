@@ -3,8 +3,9 @@ import GameplayKit
 
 // dependendia da
 var recordData:String!
-var right:Bool = false
+var right:Bool = true
 var left:Bool = false
+var down:Bool = false
 
 struct PhysicsCategory {
     static let none : UInt32 = 0
@@ -15,6 +16,9 @@ struct PhysicsCategory {
 
 // dependendia da
 class GameScene: SKScene, SKPhysicsContactDelegate {
+    //Player
+    let grandpa = SKSpriteNode(imageNamed: "oldMan")
+    
     //MARK: HardCoded Vars
     var scrollSpeed : CGFloat = 100 // velocidade de scroll das plataformas
     var scrollAceleration : Double = 0.15  // aceleraçao do scroll
@@ -34,6 +38,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func didMove(to view: SKView) {
         // define a cor do fundo base
         backgroundColor = SKColor.gray
+        
+        //playerStuff
+      
+        
+        physicsWorld.gravity = .zero
+        physicsWorld.contactDelegate = self
+        
+        
         // inicia elementos da cena
         InitScene()
     }
@@ -46,12 +58,38 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if(startPlaying){
             // actualiza as plataformas
             UpdateObstacles(deltaTime: deltaTime)
-            
-            // actualiza o score de jogo
+
+          //   if(down == true)
+           // {
+             //   grandpa.position.y -= 1
+            //}else if (down == false)
+           // {
+             //   grandpa.position.y += 1
+            //}
+          
+            if(left == true && right == false)
+            {
+                if(grandpa.position.x > 0)
+                {
+                grandpa.position.x -= 1
+                    
+                }
+        }else if(left == false && right == true)
+            {
+                if(grandpa.position.x < size.width)
+                {
+                    grandpa.position.x += 1
+                    
+                }
+            }
+          
+        // actualiza o score de jogo
             UpdateScore(Double(deltaTime))
         }
+
         // atualiza o tempo do fram
         lastUpdateTime = CGFloat(currentTime)
+        }
     }
     
     //MARK: Late update
@@ -100,6 +138,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         // gera plataformas
         GeneratePlatforms()
+        
+        grandpa.position = CGPoint(x: frame.midX, y: frame.midY)
+        grandpa.xScale = 2
+        grandpa.yScale = 2
+        grandpa.zPosition = 5
+        grandpa.physicsBody = SKPhysicsBody(rectangleOf: grandpa.size)
+        //grandpa.physicsBody?.isDynamic = true
+        grandpa.physicsBody?.categoryBitMask = PhysicsCategory.grandpa
+        grandpa.physicsBody?.collisionBitMask = PhysicsCategory.floor
+        
+        addChild(grandpa)
+        
+        
     }
     
     //MARK: Logica das Plataformas
@@ -190,14 +241,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             startPlaying = true
         }
 
-        let location = touch.location(in: self)
 
-        if(location.x < frame.midX)
+        if(right == true && left == false)
         {
          right = false
          left = true
         }
-        else{
+        else if (right == false && left == true){
             right = true
             left = false
         }
@@ -222,4 +272,28 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         }
     }
+ }
+    
+    func didBegin(_ contact: SKPhysicsContact) {
+        var firstBody : SKPhysicsBody
+        var secondBody : SKPhysicsBody
+        
+        if (contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask)
+        {
+            firstBody = contact.bodyA
+            secondBody = contact.bodyB
+        }
+        else {
+            firstBody = contact.bodyB
+            secondBody = contact.bodyA
+        }
+        
+        
+        if ((firstBody.categoryBitMask == PhysicsCategory.grandpa) &&
+            (secondBody.categoryBitMask == PhysicsCategory.floor))
+        {
+            down = false
+        }else{down = true}
+            }
+    
 }
