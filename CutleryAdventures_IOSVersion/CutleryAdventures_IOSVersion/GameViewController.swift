@@ -24,11 +24,14 @@ class GameViewController: UIViewController {
             scene.scaleMode = .resizeFill
             // nao ignora ordem de parentesco
             view.ignoresSiblingOrder = true
+            
+            //MARK: DEBUG
             // mostra fps
             view.showsFPS = true
             // mostra node count
             view.showsNodeCount = true
-            
+            // mostra os rectangulos de colisao
+            view.showsPhysics = true
             // apresenta a cena
             view.presentScene(scene)
         }

@@ -31,7 +31,15 @@ class Obstacle{
         // coloca plataforma na frente
         leftPlatform.zPosition = 5
         
-        //MARK: TODO fisicas dos objs
+        //MARK: corpo fisico
+        // define o corpo fisico da plataforma
+        leftPlatform.physicsBody = SKPhysicsBody(rectangleOf: leftPlatform.size)
+        // define se é dinamica
+        leftPlatform.physicsBody?.isDynamic = false
+        // define a que categoria pretence
+        leftPlatform.physicsBody?.categoryBitMask = PhysicsCategory.floor
+        // define que categorias podem colidir com
+        leftPlatform.physicsBody?.collisionBitMask = PhysicsCategory.grandpa
         
         //MARK: Plataforma da direita
         // inicia a plataforma da direita
@@ -45,7 +53,15 @@ class Obstacle{
         // coloca a plataforma na frente
         rightPlatform.zPosition = 5
         
-        //MARK: TODO fiscas dos objs
+        //MARK: corpo fisico
+        // define o corpo fisico da plataforma
+        rightPlatform.physicsBody = SKPhysicsBody(rectangleOf: rightPlatform.size)
+        // define que é dinamica
+        rightPlatform.physicsBody?.isDynamic = false
+        // define a que categoria pretence
+        rightPlatform.physicsBody?.categoryBitMask = PhysicsCategory.floor
+        // define que categorias podem colidir com
+        rightPlatform.physicsBody?.collisionBitMask = PhysicsCategory.grandpa
     }
     
     //MARK: Add & Remove from scene
