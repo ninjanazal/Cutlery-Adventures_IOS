@@ -6,6 +6,7 @@ var recordData:String!
 var right:Bool = true
 var left:Bool = false
 var down:Bool = false
+let userDefaults = Foundation.UserDefaults.standard
 
 struct PhysicsCategory {
     static let none : UInt32 = 0
@@ -56,6 +57,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // determina o tempo do frame
         let deltaTime = CGFloat(currentTime) - lastUpdateTime
         
+        
+        let value = userDefaults.string(forKey: "BestScore")
+        recordData = value
+        
         if(startPlaying){
             // actualiza as plataformas
             UpdateObstacles(deltaTime: deltaTime)
@@ -64,17 +69,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             // actualiza a posiçao com base na velocidade e na quantidade de tempo entre frames
             self.grandpa.position.x += CGFloat(playerSpeed) * deltaTime * CGFloat(playerDirection)
           
-            /*
-            if(left == true && right == false){
-                if(grandpa.position.x > 0){
-                    grandpa.position.x -= 5
-                }
-            }else if(left == false && right == true){
-                if(grandpa.position.x < size.width){
-                    grandpa.position.x += 5
-                }
-            }
-          */
+        
             
         // actualiza o score de jogo
             UpdateScore(Double(deltaTime))
@@ -237,10 +232,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.grandpa.position.y = self.grandpa.size.height * 0.5}
         else if(self.grandpa.position.y - self.grandpa.size.height * 0.5 > frame.height){
             // end Game
+            saveScore()
             LoadEndGameScene()
         }
     }
-    
+    private func SwitchToMenuScene(){
+        // define a transiçao
+        let transition = SKTransition.push(with: .left, duration: 0.6)
+        // define a scena a carregar
+        let scene = MenuScene(size: size)
+        // mostra a cena com a transiçao definida
+        self.view?.presentScene(scene, transition: transition)
+    }
     //MARK: Input
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         // verifica se nao é o toque de inicio
@@ -264,33 +267,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // actualiza a direcçao do jogador
         self.grandpa.xScale = abs(self.grandpa.xScale) * CGFloat(playerDirection)
         
-        /*
-        if(right == true && left == false){
-         right = false
-         left = true
-        }
-        else if (right == false && left == true){
-            right = true
-            left = false
-        }*/
     }
 
     func saveScore(){
         if(recordData == nil)
         {
-            let savedString = "place holder"
-            let userDefaults = Foundation.UserDefaults.standard
+            let savedString = playerScoreLabel.text
+            
             userDefaults.set(savedString, forKey: "BestScore")
 
         }
         else
         {
-            //let score:Int? = Int(scorelable.text!)
-            //let record:Int? = Int(recordData)
-            //if(score! > record!){
-            //  let savedString = "place holder"
-            //let userDefaults = Foundation.UserDefaults.standard
-            //userDefaults.set(savedString, forKey: "BestScore")        }
+            let score:Double? = Double(playerScoreLabel.text!)
+            let record:Double? = Double(recordData)
+            if(score! > record!)
+            {
+                let savedString = score
+                let userDefaults = Foundation.UserDefaults.standard
+                userDefaults.set(savedString, forKey: "BestScore")
+
+            }
         
         }
     }
