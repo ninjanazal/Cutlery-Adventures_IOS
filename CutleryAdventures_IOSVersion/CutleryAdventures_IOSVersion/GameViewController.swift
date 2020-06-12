@@ -31,7 +31,7 @@ class GameViewController: UIViewController {
             // criar uma instancia da gameScene
             //let scene = GameScene(size: view.bounds.size)
             let scene = MenuScene(size: view.bounds.size)
-            
+
             // define o tipo de escalamento
             scene.scaleMode = .resizeFill
             // nao ignora ordem de parentesco
