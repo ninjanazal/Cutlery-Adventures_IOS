@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0F4A90C82493C7C700849B97 /* CutleryRainSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F4A90C72493C7C700849B97 /* CutleryRainSystem.swift */; };
 		0F5552C1248D5A870071C668 /* CreditsScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F5552C0248D5A870071C668 /* CreditsScene.swift */; };
 		0F64FCA52486509300235B5A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F64FCA42486509300235B5A /* AppDelegate.swift */; };
 		0F64FCAB2486509300235B5A /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F64FCAA2486509300235B5A /* GameScene.swift */; };
@@ -20,6 +21,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0F4A90C72493C7C700849B97 /* CutleryRainSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CutleryRainSystem.swift; sourceTree = "<group>"; };
 		0F5552C0248D5A870071C668 /* CreditsScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreditsScene.swift; sourceTree = "<group>"; };
 		0F64FCA12486509300235B5A /* CutleryAdventures_IOSVersion.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CutleryAdventures_IOSVersion.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0F64FCA42486509300235B5A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -66,6 +68,7 @@
 			children = (
 				0F64FCA42486509300235B5A /* AppDelegate.swift */,
 				0FA60A03248E761900AFCB51 /* Obstacle.swift */,
+				0F4A90C72493C7C700849B97 /* CutleryRainSystem.swift */,
 				0FC1140C248ACE0300BE5F6D /* MenuScene.swift */,
 				0F5552C0248D5A870071C668 /* CreditsScene.swift */,
 				0F64FCAA2486509300235B5A /* GameScene.swift */,
@@ -152,6 +155,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0F64FCAB2486509300235B5A /* GameScene.swift in Sources */,
+				0F4A90C82493C7C700849B97 /* CutleryRainSystem.swift in Sources */,
 				0F5552C1248D5A870071C668 /* CreditsScene.swift in Sources */,
 				0FEC662024911C5800F66AA3 /* EndGameScene.swift in Sources */,
 				0FA60A04248E761A00AFCB51 /* Obstacle.swift in Sources */,

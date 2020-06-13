@@ -11,8 +11,9 @@ let userDefaults = Foundation.UserDefaults.standard
 struct PhysicsCategory {
     static let none : UInt32 = 0
     static let all  : UInt32 = UInt32.max
-    static let grandpa : UInt32 = 0b1 << 0 // 1
-    static let floor : UInt32   = 0b1 << 1 // 2
+    static let grandpa : UInt32 = 0b1 << 0  // 1
+    static let floor : UInt32   = 0b1 << 1  // 2
+    static let cutlery: UInt32  = 0b1 << 2  // 4
 }
 
 // dependendia da
@@ -37,6 +38,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var lastUpdateTime : CGFloat = 0    // tempo do ultimo update
     private var startPlaying : Bool = false     // indica se o jogo começou
     private var currentScore : Double = 0.00     // score do jogador
+    
+    //MARK: Cutlery Rain Vars
+    private var cutleryRainSystem : CutleryRainSystem!
+    private var spawnRate : Double = 2
+    private var reductionBonus : Double = 5.5
     
     //MARK: ONLoad
     override func didMove(to view: SKView) {
@@ -65,14 +71,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             // actualiza as plataformas
             UpdateObstacles(deltaTime: deltaTime)
             
-            //MARK: Sugestao
             // actualiza a posiçao com base na velocidade e na quantidade de tempo entre frames
             self.grandpa.position.x += CGFloat(playerSpeed) * deltaTime * CGFloat(playerDirection)
-          
-        
             
-        // actualiza o score de jogo
+            // actualiza o score de jogo
             UpdateScore(Double(deltaTime))
+            
+            // actualiza o sistema de particulas
+            self.cutleryRainSystem.Update(deltaTime: Double(deltaTime))
+            
         }
         // atualiza o tempo do fram
         lastUpdateTime = CGFloat(currentTime)
@@ -87,6 +94,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         // avalia a posiçao do jogador
         ConfirmPlayerPosition()
+        
+        // avalia o sistema de particulas
+        self.cutleryRainSystem.LateUpdate()
     }
     
     //MARK: Init
@@ -140,9 +150,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         grandpa.physicsBody?.allowsRotation = false
         grandpa.physicsBody?.categoryBitMask = PhysicsCategory.grandpa
         grandpa.physicsBody?.collisionBitMask = PhysicsCategory.floor
+        grandpa.physicsBody?.contactTestBitMask = PhysicsCategory.cutlery
         
         self.addChild(grandpa)
         
+        //MARK: Cutlery Rain
+        // inicia o sistema de particulas para os talheres
+        self.cutleryRainSystem = CutleryRainSystem(scene: self, spawnRate: self.spawnRate, reductionBonus: self.reductionBonus, textures: [SKTexture(imageNamed: "Fork"), SKTexture(imageNamed: "Knife")])
         
     }
     
@@ -262,13 +276,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             // ignora o resto da funçao
             return
         }
-        //MARK: Sugestao
+
         self.playerDirection *= -1
         // actualiza a direcçao do jogador
         self.grandpa.xScale = abs(self.grandpa.xScale) * CGFloat(playerDirection)
         
     }
-
+    
+    //MARK: Save Score
     func saveScore(){
         if(recordData == nil)
         {
@@ -297,8 +312,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         var firstBody : SKPhysicsBody
         var secondBody : SKPhysicsBody
         
-        if (contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask)
-        {
+        if (contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask){
             firstBody = contact.bodyA
             secondBody = contact.bodyB
         }
@@ -306,15 +320,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             firstBody = contact.bodyB
             secondBody = contact.bodyA
         }
-        
-        
+                
         if ((firstBody.categoryBitMask == PhysicsCategory.grandpa) &&
-            (secondBody.categoryBitMask == PhysicsCategory.floor))
-        {
-            down = false
-        }else{
-            down = true
-            
+            (secondBody.categoryBitMask == PhysicsCategory.cutlery)){
+            // reduz a velocidade do scroll
+            self.scrollSpeed -= CGFloat(self.cutleryRainSystem.speedReductionBonus)
+            // destroi o talher
+            self.cutleryRainSystem.ContactCallBack(element: (secondBody.node as? SKSpriteNode)!)
         }
     }
     
