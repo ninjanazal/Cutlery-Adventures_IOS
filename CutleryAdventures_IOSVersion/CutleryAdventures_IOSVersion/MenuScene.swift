@@ -68,8 +68,6 @@ class MenuScene : SKScene{
         // label que mostra o valor do melhor score
         bestScoreValueLabel = SKLabelNode()
         
-        // MARK: TODO -> ConnectValues
-        //----- :: TODO :: LOAD VALUE FROM FILE ------ //
         bestScoreValueLabel.text = "0"      // a ser removido <<<< ---------
         bestScoreValueLabel.fontSize = 40   // define o tamanho da fonte
         bestScoreValueLabel.color = .white
